@@ -1,0 +1,1 @@
+{"max_filas": 100, "max_columnas": 100, "cant_MO_inicial": 50, "energia_inicial": 80, "energia_max": 200, "cant_max_alimento_ingerir": 20, "energia_perdida": 80, "cant_semb_inicial": 50, "alimento_siembra": 50, "epoca_rep": 10, "prob_mutacion": 2, "prob_cambio_semb": 5, "prob_cambio_MO": 10, "cant_max_alimento_celda": 50, "invierno": 1}
