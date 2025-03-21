@@ -5,14 +5,15 @@ from modulos.gestor_de_alimento import Gestor_de_Alimento
 parametros_de_simulacion = Parametros_de_Simulacion()
 class Sembrador: 
     def __init__(self):
-       self.__fila = random.randint(0, parametros_de_simulacion.dic_parametros['max_filas']) 
-       self.__columna = random.randint(0, parametros_de_simulacion.dic_parametros['max_columnas'])
-       self.__direccion_movimiento = random.randint(0,7)
+        self.__direccion_movimiento = random.randint(0,7)
+        self.__fila = random.randint(0, parametros_de_simulacion.dic_parametros['max_filas']-1) 
+        self.__columna = random.randint(0, parametros_de_simulacion.dic_parametros['max_columnas']-1)
    
     def set_posicion(self, p_fila, p_columna):
         self.__fila = p_fila
         self.__columna = p_columna 
-   
+   #pero la posicion del sembrador no es random? por que tengo un set?
+    
     def devolver_posicion_sembrador(self):
         return self.__fila, self.__columna
     
@@ -40,24 +41,19 @@ class Sembrador:
         
         
     def sembrar_alimento (self , gestor_alimento):
-        gestor_alimento.agregar_alimento_en_posicion(self.__fila,self.__columna)
-        
-        
-"""        
-        if gestor_alimento.retornar_alimento_en_posicion(self.__fila, self.__columna) < d_i.cant_max_alimento_celda:
-            alimento_sembrado = gestor_alimento.agregar_alimento_en_posicion(self.__fila, self.__columna)
-            if alimento_sembrado > d_i.max_alimento_siembra:
-                alimento_sembrado = d_i.max_alimento_siembra
-""" 
-   #REVISAR         
-   #CONTROL DE MOVIMIENTO (SI SE MUEVE O NO) 
-   #NO HACE FALTA CONTROLAR LA CANTIDAD, ESO LO HACE EL GESTOR DE ALIMENTO  
-   
+        gestor_alimento.agregar_alimento_en_posicion(self.__fila, self.__columna)
+        self.movimiento_sembrador()
+        #el self movimiento para que se mueva luego de sembrar
+ 
+'''
 if __name__=="__main__":
     s = Sembrador()
-    ga = Gestor_de_Alimento(parametros_de_simulacion)
-    s.set_posicion(25, 48)
-    s.sembrar_alimento(ga)
+    s.set_posicion(20, 59)
+    fila, columna = s.devolver_posicion_sembrador()
+    ga = Gestor_de_Alimento(parametros_de_simulacion, fila, columna)
+  
     print('pos inicial', s.devolver_posicion_sembrador())
-    s.movimiento_sembrador()
+    s.sembrar_alimento(ga)
     print('se movio', s.devolver_posicion_sembrador())
+    print(ga.retornar_alimento_en_posicion())
+    '''

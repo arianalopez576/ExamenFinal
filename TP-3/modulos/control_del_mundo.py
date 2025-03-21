@@ -1,74 +1,66 @@
-
-from modulos.gestor_de_alimento import Gestor_de_Alimento
-# from modulos.microorganismo import Microorganismo
-# from modulos.sembrador import Sembrador
-from datos.parametros_de_simulacion import Parametros_de_Simulacion
+from modulos.sembrador import Sembrador 
 from modulos.poblacion_MO import Poblacion_MO
+from modulos.gestor_de_alimento import Gestor_de_Alimento
 from modulos.poblacion_sembradores import Poblacion_Sembradores
+from datos.parametros_de_simulacion import Parametros_de_Simulacion
+import numpy as np
 import random
 
-parametros_de_simulacion = Parametros_de_Simulacion()
 #parametros_de_simulacion.max_filas = 10  Una forma de modificarlo
 
 class Mundo:    
-    def __init__(self, parametros_de_simulacion):
-        self.__gestor_alimento = Gestor_de_Alimento(parametros_de_simulacion)
+    def __init__(self, p_ps):
+        self.__parametros = p_ps
         self.__poblacion_MO = Poblacion_MO()
         self.__poblacion_sembradores = Poblacion_Sembradores()
         self.__epoca = 0
-        self.__territorio = [0 for i in range(parametros_de_simulacion.dic_parametros['max_filas']) for j in range(parametros_de_simulacion.dic_parametros['max_columnas'])]
-    
+        self.__territorio = [0 for i in range(p_ps.dic_parametros['max_filas']) for j in range(p_ps.dic_parametros['max_columnas'])]
+        
     def vivir(self):
-        epoca_reproduccion = bool()
-        gestor_alimento = self.__gestor_alimento
-        if self.__epoca % parametros_de_simulacion.dic_parametros['epoca_rep'] == 0:
+        epoca_reproduccion = False
+        semb = Sembrador()
+        self.__fila, self.__columna = semb.devolver_posicion_sembrador()
+        ga = Gestor_de_Alimento(self.__parametros)
+        
+        #epoca de reproduccion
+        if self.__epoca != 0 and self.__epoca % self.__parametros.dic_parametros['epoca_rep'] == 0:
             epoca_reproduccion = True
-        #esta raro esto porque epoca siempre esta en 0, dividido cualquier cosa es 0.
+       
+        #invierno, se vacian todas las celdas de comida
+        if random.random()*100 <= self.__parametros.dic_parametros['invierno']:
+            self.__invierno()
             
         for sembrador in self.__poblacion_sembradores.devolver_lista_sem():
-            sembrador.movimiento_sembrador()
-            sembrador.sembrar_alimento(gestor_alimento)
+            sembrador.sembrar_alimento(ga)
+            
         for mo in self.__poblacion_MO.devolver_lista_MO(): 
-            mo.moverse(gestor_alimento)
+            mo.moverse(ga)
             
         if epoca_reproduccion == True:
-            indice_random = random.randint(0,len(self.__poblacion_MO.devolver_lista_MO())-1)
-            while self.__poblacion_MO.devolver_MO(indice_random).retornar_nivel_energia() == 0:
-                indice_random = random.randint(0,len(self.__poblacion_MO.devolver_lista_MO())-1)
-            MO_hijo = mo.reproduccion(self.retornar_MO(indice_random))
-            self.__poblacion_MO.set_MO(MO_hijo) 
-           
-        # print("Epoca N° " + str(self.__epoca) + ":")
-        # indice_mo = 0
-        # for mo in self.__poblacion_MO.devolver_lista_MO(): 
-        #     print("MO N°" + str(indice_mo+1) + ":")
-        #     print("Fila: " + str(mo.get_fila()))
-        #     print("Columna: " + str(mo.get_columna()))
-        #     print("\n")
-        #     indice_mo = indice_mo + 1
-        # indice_sembrador = 0
-        # for sembrador in self.__poblacion_sembradores.devolver_lista_sem(): 
-        #     print("Sembrador N°" + str(indice_sembrador+1) + ":")
-        #     print("Fila: " + str(mo.get_fila()))
-        #     print("Columna: " + str(mo.get_columna()))
-        #     print("\n")
-        #     indice_sembrador = indice_sembrador + 1
+            MOs = random.sample(self.__poblacion_MO.get_MOs_vivos(),2) #random sample devuelve elementos de la lista sin repetir
+            MO1,MO2 = MOs[0],MOs[1]
+            for i, mo in enumerate(self.__poblacion_MO.devolver_lista_MO()):
+                if mo.verificar_vida() == False:
+                    MOs = random.sample(self.__poblacion_MO.get_MOs_vivos(),2) #random sample devuelve elementos de la lista sin repetir
+                    MO1,MO2 = MOs[0],MOs[1]
+                    MO_hijo = MO1.reproduccion(MO2)
+                    self.__poblacion_MO.set_MO(MO_hijo, i)
+                    
+        self.__epoca += 1
         
-        self.__epoca = self.__epoca + 1
+    def retornar_lista_MO(self):
+        return self.__poblacion_MO.devolver_lista_MO()
             
     def retornar_MO(self,indice):
         return self.__poblacion_MO.devolver_MO(indice)
     
     def __invierno(self):
-        gestor_alimento = self.__gestor_alimento
-        if  random.random()*100 < parametros_de_simulacion.dic_parametros['invierno']:
-            gestor_alimento.vaciar_matriz_alimento()
+        ga = Gestor_de_Alimento(self.__parametros)
+        if  random.random()*100 < self.__parametros.dic_parametros['invierno']:
+            ga.vaciar_matriz_alimento()
             
     def retornar_MO_vivos(self):
-        MO_vivos = 0
-        for mo in self.__poblacion_MO.devolver_lista_MO():
-            if mo.verificar_vida() == True:
-                MO_vivos += 1
+        MO_vivos = self.__poblacion_MO.calcular_cant_MO()
         return MO_vivos
 
     def retornar_inteligencia_promedio(self):
@@ -92,16 +84,41 @@ class Mundo:
         columna_MO = lista_MO[indice_MO].get_columna()
         return fila_MO, columna_MO   
 
-    def retornar_posicion_Sembrador(self, indice_sem):
+    def retornar_posicion_sembrador(self, indice_sem):
         lista_sembradores = self.__poblacion_sembradores.devolver_lista_sem()
         fila_sembrador = lista_sembradores[indice_sem].get_fila() 
         columna_sembrador = lista_sembradores[indice_sem].get_columna()
         return fila_sembrador, columna_sembrador   
     
-
+    ''' funciones que devuelven los datos para pasarle al graficador'''
+    
+    def retornar_datos_sembradores(self):
+        """ se debe devolver posiciones f c de los sembradores"""
+        cant_semb = 40
+       
+        arreglo_sembradores = np.zeros(cant_semb, dtype =[("position", float, (2,)), ("color", float, (4,))])
+        arreglo_sembradores["position"] = np.random.uniform(0, 100, (cant_semb, 2))
+        arreglo_sembradores["color"][:, 2] = 1
+        arreglo_sembradores["color"][:, 3] = np.linspace(0, 1, cant_semb)
+        
+        return (arreglo_sembradores)
+           
+    def retornar_datos_MOs(self):
+        """ se debe devolver posiciones f c energía de los MOs"""
+   
+    
+    def retornar_datos_alimento(self):
+        """ se debe devolver posiciones f c y cantidad de alimenot """
         
 # FALTAN LAS ÉPOCAS
 # ARCHIVO
 # ¡¡¡GRAFICADORR!!!           
-        
-
+'''
+if __name__ == '__main__':
+    ps = Parametros_de_Simulacion
+    mundo = Mundo(ps)
+    mundo.vivir()
+    lista = mundo.retornar_lista_MO()
+    print(lista)
+    
+'''

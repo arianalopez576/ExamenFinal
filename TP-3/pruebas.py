@@ -1,9 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Nov 14 17:58:24 2022
 
-@author: Ivana
-"""
 
 from modulos.control_del_mundo import Mundo
 from datos.parametros_de_simulacion import Parametros_de_Simulacion

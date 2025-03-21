@@ -3,6 +3,7 @@ from datos.parametros_de_simulacion import Parametros_de_Simulacion
 import json
 
 class Gestor_de_Archivo_de_Param:
+    #para almacenar los parametros de simulacion o establecer estos valores
     
     def __init__(self):
         pass

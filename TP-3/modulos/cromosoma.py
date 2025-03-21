@@ -2,21 +2,23 @@ from datos.parametros_de_simulacion import Parametros_de_Simulacion
 import random
 
 class Cromosoma:
-    
+    #composicion con microorganismo
     def __init__(self):
-        # self.__gen = 0
         self.__lista_genes = []
-        for i in range(8): #y entonces para que es este for si despues lo agrega en agregar gen
+        #crea la lista aleatoria de genes
+        for i in range(8):
             self.__lista_genes.append(random.randint(0,7))
         
-        
+    #agrega los genes a un nuevo cromosoma luego de la cruza    
     def agregar_gen_a_cromosoma(self, p_genes):
         for i in range(len(p_genes)):
             self.__lista_genes[i] = p_genes[i]
             
+    #devuelve la lista de genes ya que es un atributo privado
     def devolver_cromosoma(self):
         return self.__lista_genes
     
+    #devuelve el gen en determinado lugar de la lista
     def devolver_gen_en_posicion_dada (self, p_posicion):
         gen = self.__lista_genes[p_posicion]
         return gen
@@ -25,8 +27,8 @@ class Cromosoma:
         parametros_de_simulacion = Parametros_de_Simulacion()
         cromosoma_hijo = Cromosoma()
         genes = []
-        posicion_inicio = random.randint(0, 7)
-        #print(cromosoma_hijo.__lista_genes)
+        posicion_inicio = random.randint(1,6) #para que ningun hijo sea igual al padre/madre
+        
         for i in range(0, posicion_inicio):
             genes_madre = (self.__lista_genes[i])
             genes.append(genes_madre)
@@ -34,20 +36,28 @@ class Cromosoma:
             genes_padre = otro_cromosoma.devolver_gen_en_posicion_dada(j)
             genes.append(genes_padre)
         
+        #random.random float entre 0 y 100
+        #random.randint int entre 0 y 7
         if random.random()*100 < parametros_de_simulacion.dic_parametros['prob_mutacion']:
             posicion_random = random.randint(0, 7)
             valor_gen_original = genes[posicion_random]
             genes[posicion_random] = random.randint(0, 7)
-            while(True):
-                if(genes[posicion_random] == valor_gen_original):
+            #para que siempre cambie, incluso cuando el random de el mismo valor que ya tenia
+            while valor_gen_original == genes [posicion_random]:
                     genes[posicion_random] = random.randint(0,7)
-                else:
-                    break
-                
+                    
         cromosoma_hijo.agregar_gen_a_cromosoma(genes)
-        #print(cromosoma_hijo.__lista_genes)
+        
         return cromosoma_hijo
-
+    
+    #halla las coincidencias entre el gen y la posicion a la que se debe mover 
+    def devolver_inteligencia(self):
+         genes = self.devolver_cromosoma()
+         contador_inteligencia = 0
+         for i in range(8):
+             if(i == genes[i]):
+                 contador_inteligencia += 1
+         return contador_inteligencia
            
 if __name__ == '__main__':
     c1 = Cromosoma()
@@ -71,11 +81,4 @@ if __name__ == '__main__':
     cromo_hijo = Cromosoma()
     cromo_hijo = c1.cruzar(c2)
     print(cromo_hijo.devolver_cromosoma())
-    
-'''
-if __name__ == "__main__":
-    c1 = Cromosoma()
-    c2 = Cromosoma()
-    c3 = c1.devolver_cruza_cromosoma()
-'''   
     
