@@ -98,15 +98,24 @@ class Mundo:
        
         arreglo_sembradores = np.zeros(cant_semb, dtype =[("position", float, (2,)), ("color", float, (4,))])
         arreglo_sembradores["position"] = np.random.uniform(0, 100, (cant_semb, 2))
-        arreglo_sembradores["color"][:, 2] = 1
-        arreglo_sembradores["color"][:, 3] = np.linspace(0, 1, cant_semb)
+        arreglo_sembradores["color"][:, 2] = 1 #color azul
+        #le saco la transparencia arreglo_sembradores["color"][:, 3] = np.linspace(0, 1, cant_semb)
         
         return (arreglo_sembradores)
            
     def retornar_datos_MOs(self):
         """ se debe devolver posiciones f c energía de los MOs"""
-   
-    
+        cant_MOs = 200
+            
+        arreglo_MOs = np.zeros(cant_MOs, dtype = [("position", float, (2,)), ("energia", float, (1,)), ("color", float, (4,))]) 
+        
+        arreglo_MOs["position"] = np.random.uniform(0, 100, (cant_MOs, 2))
+        arreglo_MOs["energia"] = 1
+        arreglo_MOs["color"][:, 1] = 1 #color verde
+        
+        return (arreglo_MOs)
+        
+        
     def retornar_datos_alimento(self):
         """ se debe devolver posiciones f c y cantidad de alimenot """
         
