@@ -23,8 +23,10 @@ class ControladorDeSimulador:
         # p_scatter.set_facecolors(M["color"])
         # p_scatter.set_offsets(M["position"])
         
-        posiciones = np.concatenate([R["position"], M["position"]])
-        colores = np.concatenate([R["color"], M["color"]])
+        A = self.__interfaz.devolver_datos_alimento()
+        
+        posiciones = np.concatenate([R["position"], M["position"], A["position"]])
+        colores = np.concatenate([R["color"], M["color"], A["color"]])
         
         p_scatter.set_facecolors(colores)
         p_scatter.set_offsets(posiciones)

@@ -117,7 +117,17 @@ class Mundo:
         
         
     def retornar_datos_alimento(self):
-        """ se debe devolver posiciones f c y cantidad de alimenot """
+        """ se debe devolver posiciones f c y cantidad de alimento"""
+        cant_alimento = 50
+            
+        arreglo_alimento = np.zeros(cant_alimento, dtype = [("position", float, (2,)), ("cantidad", float, (1,)), ("color", float, (4,))]) 
+        
+        arreglo_alimento["position"] = np.random.uniform(0, 100, (cant_alimento, 2))
+        arreglo_alimento["cantidad"] = 50
+        arreglo_alimento["color"][:, 0] = 1 #color 
+        
+        return (arreglo_alimento)
+        
         
 # FALTAN LAS ÉPOCAS
 # ARCHIVO

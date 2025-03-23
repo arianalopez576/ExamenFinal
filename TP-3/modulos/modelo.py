@@ -16,12 +16,13 @@ class InterfazModeloSimulacion:
         self.__data_arreglo_MOs = None
         self.__epoca = None
         self.__data_arreglo_sembradores = None
-        self.__data_arreglo_comida = None
+        self.__data_arreglo_alimento = None
         self.__mundo = Mundo(ps)
              
     def cargar_parametros_simulacion(self):
         self.__data_arreglo_sembradores = self.__mundo.retornar_datos_sembradores()
         self.__data_arreglo_MOs = self.__mundo.retornar_datos_MOs()
+        self.__data_arreglo_alimento = self.__mundo.retornar_datos_alimento()
         self.__epoca = 0
         
         
@@ -30,19 +31,23 @@ class InterfazModeloSimulacion:
         
         '''simular un paso de los sembradores 
             i es un indice para recorrer los sembradores '''
-         
-        #le saco la transparencia self.__data_arreglo_sembradores["color"][:, 3] = np.maximum(0, self.__data_arreglo_sembradores["color"][:, 3] - 1 / len(self.__data_arreglo_sembradores))
-    
-
         i = self.__epoca % len(self.__data_arreglo_sembradores)
         self.__data_arreglo_sembradores["position"][i] = np.random.uniform(0, 100, 2)
         self.__data_arreglo_sembradores["color"][i, 3] = 1
         
+        '''simular un paso de los microscopios y modificar su tranparencia'''
         j = self.__epoca % len(self.__data_arreglo_MOs)
         self.__data_arreglo_MOs["position"][j] = np.random.uniform(0, 100, 2)
         self.__data_arreglo_MOs["energia"][j] -= 0.1
         self.__data_arreglo_MOs["color"][j, 3] = 1
         self.__data_arreglo_MOs["color"][j, 3] = max(0, self.__data_arreglo_MOs["energia"][j])
+        
+        k = self.__epoca % len(self.__data_arreglo_alimento)
+        cant_max_alimento = ps.dic_parametros["alimento_siembra"]
+        self.__data_arreglo_alimento["position"][k] = np.random.uniform(0, 100, 2)
+        self.__data_arreglo_alimento["cantidad"][k] -= 0.1
+        self.__data_arreglo_alimento["color"][k, 3] = 1
+        self.__data_arreglo_alimento["color"][k, 3] = self.__data_arreglo_alimento["cantidad"][k]/cant_max_alimento
         
         self.__epoca += 1
             
@@ -55,8 +60,8 @@ class InterfazModeloSimulacion:
     def devolver_datos_semb(self):
         return self.__data_arreglo_sembradores
     
-    # def devolver_datos_comida(self):
-    #     return self.__data_arreglo_comida
+    def devolver_datos_alimento(self):
+        return self.__data_arreglo_alimento
     
 # if __name__ == '__main__':
 #     ps = Parametros_de_Simulacion()
