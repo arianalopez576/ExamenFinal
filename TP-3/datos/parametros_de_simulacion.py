@@ -17,7 +17,7 @@ class Parametros_de_Simulacion:
     #Energía que consume cada MO al desplazarse 
     'energia_perdida': 1,
     #Población (número de individuos) de Sembradore
-    'cant_semb_inicial': 40,
+    'cant_semb_inicial': 5,
     #Cantidad alimento que siembra un sembrado
     'alimento_siembra': 50,
     #Épocas de reproducción

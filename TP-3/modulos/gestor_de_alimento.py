@@ -4,7 +4,8 @@ class Gestor_de_Alimento:
     def __init__(self, p_ps):
         self.__matriz_alimento = [[0 for i in range(p_ps.dic_parametros['max_columnas'])] for j in range(p_ps.dic_parametros['max_filas'])]
         self.__parametros = p_ps
-       
+      
+    #para la siembra
     def agregar_alimento_en_posicion(self, p_fila, p_columna):
         if self.comprobar_dimension_fila_columna(p_fila, p_columna) == True:
             if self.retornar_alimento_en_posicion(p_fila, p_columna) + self.__parametros.dic_parametros['alimento_siembra'] >= self.__parametros.dic_parametros['cant_max_alimento_celda']:
@@ -14,11 +15,13 @@ class Gestor_de_Alimento:
         else:
             pass # NO DEBERIA HACER NADA.
      
+    #se utiliza en el invierno
     def vaciar_matriz_alimento(self):
         for i in range(self.__parametros.dic_parametros['max_filas']):
             for j in range(self.__parametros.dic_parametros['max_columnas']):
                 self.__matriz_alimento[i][j] = 0
     
+    #se utiliza cuando el MO come
     def quitar_alimento_en_posicion (self, p_fila, p_columna):
             alimento_quitado = 0
             if self.comprobar_dimension_fila_columna(p_fila, p_columna) == True: 
@@ -34,7 +37,6 @@ class Gestor_de_Alimento:
                 pass
             return alimento_quitado
             
-    
                     
     def retornar_alimento_en_posicion(self, p_fila, p_columna):
         posicion_en_rango = self.comprobar_dimension_fila_columna(p_fila, p_columna)

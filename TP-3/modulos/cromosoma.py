@@ -59,26 +59,26 @@ class Cromosoma:
                  contador_inteligencia += 1
          return contador_inteligencia
            
-if __name__ == '__main__':
-    c1 = Cromosoma()
-    lista_genes_c1 = []
-    for i in range (8): #no toma el 8
-        gen = random.randint(0, 7)
-        lista_genes_c1.append(gen)
-    c1.agregar_gen_a_cromosoma(lista_genes_c1)
-    info_cromo = c1.devolver_cromosoma()
-    print('cromosoma madre', info_cromo)
+# if __name__ == '__main__':
+#     c1 = Cromosoma()
+#     lista_genes_c1 = []
+#     for i in range (8): #no toma el 8
+#         gen = random.randint(0, 7)
+#         lista_genes_c1.append(gen)
+#     c1.agregar_gen_a_cromosoma(lista_genes_c1)
+#     info_cromo = c1.devolver_cromosoma()
+#     print('cromosoma madre', info_cromo)
     
-    c2 = Cromosoma()
-    lista_genes_c2 = []
-    for i in range (8):
-        gen = random.randint(0, 7)
-        lista_genes_c2.append(gen)
-    c2.agregar_gen_a_cromosoma(lista_genes_c2)
-    info_cromo2 = c2.devolver_cromosoma()
-    print('cromo padre', info_cromo2)
+#     c2 = Cromosoma()
+#     lista_genes_c2 = []
+#     for i in range (8):
+#         gen = random.randint(0, 7)
+#         lista_genes_c2.append(gen)
+#     c2.agregar_gen_a_cromosoma(lista_genes_c2)
+#     info_cromo2 = c2.devolver_cromosoma()
+#     print('cromo padre', info_cromo2)
     
-    cromo_hijo = Cromosoma()
-    cromo_hijo = c1.cruzar(c2)
-    print(cromo_hijo.devolver_cromosoma())
+#     cromo_hijo = Cromosoma()
+#     cromo_hijo = c1.cruzar(c2)
+#     print(cromo_hijo.devolver_cromosoma())
     

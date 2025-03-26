@@ -89,7 +89,7 @@ class Microorganismo:
                 self.__moverse_aleatorio(p_gestor_alimento)    
             
             #si hay alimento en la celda
-            elif celda_alimento != -1:
+            elif celda_alimento != 0:
                 posicion_nueva = cromo.devolver_gen_en_posicion_dada(celda_alimento)
                 fila_nueva = self.__fila + self.__mov_relativo[posicion_nueva][0]
                 columna_nueva = self.__columna + self.__mov_relativo[celda_alimento][1]
@@ -140,7 +140,7 @@ class Microorganismo:
     def devolver_inteligencia(self):
         return self.__inteligencia
     
-   
+'''   
 #verificar la  reproducción
 if __name__ == "__main__":
     MO_madre = Microorganismo()
@@ -163,4 +163,4 @@ if __name__ == "__main__":
     print('pos1', MO.get_fila(), MO.get_columna())
     MO.moverse(ga)
     print('pos2', MO.get_fila(), MO.get_columna())
-    
+    '''

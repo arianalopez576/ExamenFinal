@@ -10,7 +10,7 @@ ps = Parametros_de_Simulacion()
 
 class Animador:
     
-    def __init__(self, p_func_ani, p_interval=100):
+    def __init__(self, p_func_ani, p_interval=5):
         
         self._fig = None
         self._ax = None

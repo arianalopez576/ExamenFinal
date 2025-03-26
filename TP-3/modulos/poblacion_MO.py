@@ -13,7 +13,7 @@ class Poblacion_MO:
             MO = Microorganismo()
             self.__lista_MO.append(MO)
         
-    #funcion para agregar MO que nacen
+    #funcion para agregar MO que nacen, si la funcion tiene un indice, se modifica en ese lugar de la lista
     def set_MO(self, MO, indice = None):
         if indice is None:
             self.__lista_MO.append(MO)

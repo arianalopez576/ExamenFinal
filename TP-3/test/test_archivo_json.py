@@ -1,5 +1,5 @@
 
-from modulos.gestor_archivo_json import Gestor_de_Archivo_de_Param
+from modulos.archivo_json import Gestor_de_Archivo_de_Param
 import unittest
 
 class Test_Archivo_Json(unittest.TestCase):

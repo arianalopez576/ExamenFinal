@@ -15,21 +15,22 @@ class ControladorDeSimulador:
     
     def _actualizar(self, frame, p_scatter):
         self.__interfaz.simular_un_paso()
-        R = self.__interfaz.devolver_datos_semb()
-        # p_scatter.set_facecolors(R["color"])
-        # p_scatter.set_offsets(R["position"])
+        S = self.__interfaz.devolver_datos_semb()
+        p_scatter.set_facecolors(S["color"])
+        p_scatter.set_offsets(S["position"])
+        print(S)
         
-        M = self.__interfaz.devolver_datos_MOs()
+        # M = self.__interfaz.devolver_datos_MOs()
         # p_scatter.set_facecolors(M["color"])
         # p_scatter.set_offsets(M["position"])
         
-        A = self.__interfaz.devolver_datos_alimento()
+        # A = self.__interfaz.devolver_datos_alimento()
         
-        posiciones = np.concatenate([R["position"], M["position"], A["position"]])
-        colores = np.concatenate([R["color"], M["color"], A["color"]])
+        # posiciones = np.concatenate([S["position"], M["position"], A["position"]])
+        # colores = np.concatenate([S["color"], M["color"], A["color"]])
         
-        p_scatter.set_facecolors(colores)
-        p_scatter.set_offsets(posiciones)
+        # p_scatter.set_facecolors(colores)
+        # p_scatter.set_offsets(posiciones)
     
         return (p_scatter,)
 

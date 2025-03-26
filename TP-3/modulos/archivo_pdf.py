@@ -11,6 +11,7 @@ class Archivo_PDF(Archivo_Informe):
     def escribir_archivo(self): 
         archihtml = Archivo_Html()
         HTML('path_of_html').write_pdf('path_of_pdf')
+        self.crear_histograma(self.__mundo.retornar_inteligencia_MOs())
  
         
 if __name__ == '__main__':

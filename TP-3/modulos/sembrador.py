@@ -12,11 +12,11 @@ class Sembrador:
     def set_posicion(self, p_fila, p_columna):
         self.__fila = p_fila
         self.__columna = p_columna 
-   #pero la posicion del sembrador no es random? por que tengo un set?
+        
     
     def devolver_posicion_sembrador(self):
-        return self.__fila, self.__columna
-    
+        return self.__columna, self.__fila #x, y de la graficacion
+
     def movimiento_sembrador (self):
         buscar_posicion = True
         while (buscar_posicion == True):
@@ -44,16 +44,24 @@ class Sembrador:
         gestor_alimento.agregar_alimento_en_posicion(self.__fila, self.__columna)
         self.movimiento_sembrador()
         #el self movimiento para que se mueva luego de sembrar
+        
+    
+    def devolver_cant_comida(self, p_fila, p_columna):
+        ga = Gestor_de_Alimento(parametros_de_simulacion)
+        return (ga.retornar_alimento_en_posicion(p_fila, p_columna))
+    
+    def retornar_posicion_alimento(self, p_fila, p_columna):
+        ga = Gestor_de_Alimento(parametros_de_simulacion)
+        return ga.retornar_alimento_en_posicion(p_fila, p_columna)
  
-'''
-if __name__=="__main__":
-    s = Sembrador()
-    s.set_posicion(20, 59)
-    fila, columna = s.devolver_posicion_sembrador()
-    ga = Gestor_de_Alimento(parametros_de_simulacion, fila, columna)
+
+# if __name__=="__main__":
+#     s = Sembrador()
+#     s.set_posicion(random.randint(0, 99),random.randint(0, 99))
+#     fila, columna = s.devolver_posicion_sembrador()
+#     ga = Gestor_de_Alimento(parametros_de_simulacion)
   
-    print('pos inicial', s.devolver_posicion_sembrador())
-    s.sembrar_alimento(ga)
-    print('se movio', s.devolver_posicion_sembrador())
-    print(ga.retornar_alimento_en_posicion())
-    '''
+#     print('pos inicial', s.devolver_posicion_sembrador())
+#     s.sembrar_alimento(ga)
+#     print('se movio', s.devolver_posicion_sembrador())
+#     print('cant alimento', ga.retornar_alimento_en_posicion(fila, columna))

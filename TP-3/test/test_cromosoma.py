@@ -6,7 +6,6 @@ import random
 class TestCromosoma(unittest.TestCase):
     
     def setUp(self):
-        self.__gen = int()
         self.__cromosoma = Cromosoma()
         print ('\nsetUp')
         
@@ -23,26 +22,26 @@ class TestCromosoma(unittest.TestCase):
             if valor_gen >= 0 and valor_gen <= 7:
                 valor_en_rango = True
         self.assertTrue(valor_en_rango)
-       
-
-    def test_verificar_tipo_gen(self):
-        cruza = False
-        c1 = Cromosoma()
+      
+    def test_verificar_tipo_cromo_hijo(self):
+        c1 = self.__cromosoma
         c2 = Cromosoma()
-        cromo_hijo = Cromosoma()
-    
-        cromosoma_antes_de_cruza = cromo_hijo.devolver_cromosoma()
-        print(cromosoma_antes_de_cruza)
-        cromo_hijo.agregar_gen_a_cromosoma(c1.cruzar(c2).devolver_cromosoma())
-        cromosoma_despues_de_cruza = cromo_hijo.devolver_cromosoma()
-        print(cromosoma_despues_de_cruza)
-        for i in cromosoma_antes_de_cruza:
-            for j in cromosoma_despues_de_cruza:
-                if i != j:
-                    cruza = True
-                    break
+        cromo_hijo = c1.cruzar(c2)
         
-        self.assertTrue(cruza)
+        self.assertEqual(type(c1), type(cromo_hijo))
+    
+    #test para verificar que el cromo hijo sea distinto al del padre y al de la madre
+    def test_verificar_cruza(self):
+        c1 = self.__cromosoma
+        c2 = Cromosoma()
+        
+        cromo_hijo = c1.cruzar(c2)
+        datos_cromo = False #False son distintos
+        
+        if cromo_hijo.devolver_cromosoma() == c1.devolver_cromosoma() or cromo_hijo.devolver_cromosoma() == c2.devolver_cromosoma():
+            datos_cromo = True
+        
+        self.assertFalse(datos_cromo)
         
        
 if __name__ == '__main__':
