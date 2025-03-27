@@ -103,17 +103,13 @@ class Mundo:
         #datos aleatorios de pueba
         cant_semb = self.__poblacion_sembradores.calcular_cant_sembradores()
         
-        arreglo_sembradores = np.zeros(cant_semb, dtype =[("position", int, (2,)), ("color", float, (4,))])
-        print(cant_semb)
-        for i in range (cant_semb):    
-            arreglo_sembradores["position"][i] = np.random.uniform(0, 100, 2)
-            arreglo_sembradores["color"][i, 2] = 1 #color azul
         
-        # cant_semb = self.__poblacion_sembradores.calcular_cant_sembradores()
         
-        # arreglo_sembradores = np.zeros(cant_semb, dtype =[("position", float, (2,)), ("color", float, (4,))])
-        # arreglo_sembradores["position"] = self.__poblacion_sembradores.devolver_posicion_sembradores()
-        # arreglo_sembradores["color"][:, 2] = 1 #color azul
+        arreglo_sembradores = np.zeros(cant_semb, dtype =[("position", float, (2,)), ("color", float, (4,))])
+        arreglo_sembradores["position"] = self.__poblacion_sembradores.devolver_posicion_sembradores()
+        
+        arreglo_sembradores["color"][:, 2] = 1 #color azul
+        arreglo_sembradores["color"][:, 3] = 1 #alpha
         
         return (arreglo_sembradores)
            

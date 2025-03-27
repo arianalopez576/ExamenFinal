@@ -32,12 +32,9 @@ class InterfazModeloSimulacion:
         '''simular un paso de los sembradores 
             i es un indice para recorrer los sembradores '''
        
-        # i = self.__epoca % len(self.__data_arreglo_sembradores)
-        # self.__data_arreglo_sembradores["position"][i]= np.random.uniform(0, 100, 2)
-        # self.__data_arreglo_sembradores["color"][i, 3] = 1
         
         self.__data_arreglo_sembradores = self.__mundo.retornar_datos_sembradores()
-       
+        # print (self.__data_arreglo_sembradores)
         
         # '''simular un paso de los microscopios y modificar su tranparencia'''
         # j = self.__epoca % len(self.__data_arreglo_MOs)

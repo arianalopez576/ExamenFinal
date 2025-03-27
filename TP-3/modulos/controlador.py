@@ -18,7 +18,7 @@ class ControladorDeSimulador:
         S = self.__interfaz.devolver_datos_semb()
         p_scatter.set_facecolors(S["color"])
         p_scatter.set_offsets(S["position"])
-        print(S)
+       # print(S)
         
         # M = self.__interfaz.devolver_datos_MOs()
         # p_scatter.set_facecolors(M["color"])
