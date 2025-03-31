@@ -12,10 +12,9 @@ class Sembrador:
     def set_posicion(self, p_fila, p_columna):
         self.__fila = p_fila
         self.__columna = p_columna 
-        
     
-    def devolver_posicion_sembrador(self):
-        return self.__columna, self.__fila #x, y de la graficacion
+    def devolver_posicion(self):
+        return self.__fila, self.__columna #x, y de la graficacion
 
     def movimiento_sembrador (self):
         buscar_posicion = True
@@ -40,28 +39,25 @@ class Sembrador:
             return False
         
         
-    def sembrar_alimento (self , gestor_alimento):
+    def sembrar_alimento (self, gestor_alimento):
         gestor_alimento.agregar_alimento_en_posicion(self.__fila, self.__columna)
         self.movimiento_sembrador()
         #el self movimiento para que se mueva luego de sembrar
         
     
-    def devolver_cant_comida(self, p_fila, p_columna):
-        ga = Gestor_de_Alimento(parametros_de_simulacion)
-        return (ga.retornar_alimento_en_posicion(p_fila, p_columna))
+    def devolver_cantidad_comida_en_posicion(self, p_gestor_alimento, p_fila, p_columna):
+        return (p_gestor_alimento.retornar_alimento_en_posicion(p_fila, p_columna))
     
-    def retornar_posicion_alimento(self, p_fila, p_columna):
-        ga = Gestor_de_Alimento(parametros_de_simulacion)
-        return ga.retornar_alimento_en_posicion(p_fila, p_columna)
  
 
-# if __name__=="__main__":
-#     s = Sembrador()
-#     s.set_posicion(random.randint(0, 99),random.randint(0, 99))
-#     fila, columna = s.devolver_posicion_sembrador()
-#     ga = Gestor_de_Alimento(parametros_de_simulacion)
+if __name__=="__main__":
+    s = Sembrador()
+    s.set_posicion(random.randint(0, 99),random.randint(0, 99))
+    fila, columna = s.devolver_posicion()
+    ga = Gestor_de_Alimento(parametros_de_simulacion)
   
-#     print('pos inicial', s.devolver_posicion_sembrador())
-#     s.sembrar_alimento(ga)
-#     print('se movio', s.devolver_posicion_sembrador())
-#     print('cant alimento', ga.retornar_alimento_en_posicion(fila, columna))
+    print('pos inicial', s.devolver_posicion())
+    s.sembrar_alimento(ga)
+    print('se movio', s.devolver_posicion())
+    print('cant alimento', ga.retornar_alimento_en_posicion(fila, columna))
+    print('la funcion del sembrador', s.devolver_cantidad_comida_en_posicion(ga, fila, columna))

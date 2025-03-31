@@ -6,10 +6,9 @@ p_s = Parametros_de_Simulacion()
 class Poblacion_MO:     
     
     def __init__(self):
-        self.__cant_MO = int()  
         self.__lista_MO = []
         #se inicializa la lista de MO determinada por el parametro
-        for i in range(p_s.dic_parametros['cant_MO_inicial']):
+        for _ in range(p_s.dic_parametros['cant_MO_inicial']):
             MO = Microorganismo()
             self.__lista_MO.append(MO)
         
@@ -33,6 +32,12 @@ class Poblacion_MO:
     
     def devolver_lista_MO(self):
         return self.__lista_MO
+    
+    def devolver_posicion_MOs(self):
+        lista_posiciones = []
+        for MO in self.__lista_MO:
+            lista_posiciones.append(MO.get_posicion())
+        return lista_posiciones
     
     def calcular_cant_MO(self):
         MO_vivos = 0

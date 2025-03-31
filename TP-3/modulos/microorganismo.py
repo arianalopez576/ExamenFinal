@@ -30,11 +30,14 @@ class Microorganismo:
     def get_lista_genes(self):
         return self.__cromosoma.devolver_cromosoma()
     
-    def get_fila(self):
-        return self.__fila
+    # def get_fila(self):
+    #     return self.__fila
 
-    def get_columna(self):
-        return self.__columna
+    # def get_columna(self):
+    #     return self.__columna
+    
+    def get_posicion(self):
+        return(self.__fila, self.__columna)
     
     def set_posicion_MO(self, p_fila, p_columna):
         self.__fila = p_fila
@@ -101,7 +104,9 @@ class Microorganismo:
                     hay_alimento = p_gestor_alimento.retornar_alimento_en_posicion(self.__fila, self.__columna)
                     if celda_alimento == posicion_nueva or hay_alimento > 0 : 
                         self.comer(p_gestor_alimento)
-            
+                else:
+                    self.moverse(p_gestor_alimento)
+                    
             #si no hay comida, movimiento aleatorio
             else:
                 self.__moverse_aleatorio(p_gestor_alimento)
@@ -114,13 +119,15 @@ class Microorganismo:
         self.__direccion_aleatoria = random.randint(0,7)
         fila_nueva = self.__fila + self.__mov_relativo[self.__direccion_aleatoria][0]
         columna_nueva = self.__columna + self.__mov_relativo[self.__direccion_aleatoria][1]
-        if self.__verificar_ubicacion(fila_nueva, columna_nueva) == True:
+        ubicacion_en_rango = self.__verificar_ubicacion(fila_nueva, columna_nueva)
+        if ubicacion_en_rango == True:
             self.__fila = fila_nueva
             self.__columna = columna_nueva
             hay_alimento = p_gestor_alimento.retornar_alimento_en_posicion(self.__fila, self.__columna)
             if hay_alimento > 0 :
                 self.comer(p_gestor_alimento)
-         
+        else:
+            self.__moverse_aleatorio(p_gestor_alimento)
             
         
     def __verificar_ubicacion(self, p_fila_nueva, p_columna_nueva):
@@ -153,14 +160,16 @@ if __name__ == "__main__":
     print('cromosoma hijo', MO_hijo.get_lista_genes())
     print('madre', MO_madre.get_lista_genes())
     print('padre', MO_padre.get_lista_genes())
-   
+   '''
    
 #verificar que se mueve
 if __name__ == "__main__":
     ps = Parametros_de_Simulacion()
     ga = Gestor_de_Alimento(ps)
     MO = Microorganismo()
-    print('pos1', MO.get_fila(), MO.get_columna())
+    MO.set_posicion_MO(99, 99)
+    print('pos1', MO.get_posicion())
     MO.moverse(ga)
-    print('pos2', MO.get_fila(), MO.get_columna())
-    '''
+    print('pos2', MO.get_posicion())
+    print(MO.get_energia())
+    

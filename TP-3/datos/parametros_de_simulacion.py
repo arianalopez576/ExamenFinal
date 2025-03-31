@@ -7,7 +7,7 @@ class Parametros_de_Simulacion:
     #Número de0 de columnas del territorio
     'max_columnas': 100, 
     #Población (número de individuos) de Microorganismos 
-    'cant_MO_inicial': 80,
+    'cant_MO_inicial': 20,
     #Energía inicial de cada MO
     'energia_inicial': 80,
     #Energía máxima de cada MO
@@ -17,7 +17,7 @@ class Parametros_de_Simulacion:
     #Energía que consume cada MO al desplazarse 
     'energia_perdida': 1,
     #Población (número de individuos) de Sembradore
-    'cant_semb_inicial': 5,
+    'cant_semb_inicial': 10,
     #Cantidad alimento que siembra un sembrado
     'alimento_siembra': 50,
     #Épocas de reproducción

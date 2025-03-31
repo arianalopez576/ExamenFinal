@@ -29,6 +29,7 @@ class Archivo_Informe(ABC):
     def crear_histograma(self, p_datos):
         plt.hist(p_datos)
         plt.show()
+        plt.savefig("grafico.png")
     
     @abstractmethod
     def escribir_archivo(self):
