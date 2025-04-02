@@ -32,17 +32,14 @@ class Poblacion_Sembradores:
     
    
     
-if __name__ == '__main__':
-    ga = Gestor_de_Alimento(p_s)
-    s = Sembrador()
-    s.sembrar_alimento(ga)
-    s.sembrar_alimento(ga)
-    s.sembrar_alimento(ga)
-    poblacion_semb = Poblacion_Sembradores()
-    print(poblacion_semb.devolver_posicion_sembradores())
-    print(poblacion_semb.calcular_cant_sembradores())
+# if __name__ == '__main__':
+#     ga = Gestor_de_Alimento(p_s)
+#     s = Sembrador()
+#     s.sembrar_alimento(ga)
+#     s.sembrar_alimento(ga)
+#     s.sembrar_alimento(ga)
+#     poblacion_semb = Poblacion_Sembradores()
+#     print(poblacion_semb.devolver_posicion_sembradores())
+#     print(poblacion_semb.calcular_cant_sembradores())
     
-    print('datos_comida', poblacion_semb.retornar_posicion_y_cantidad_alimento(ga))
-    
-    
-#p_s.dic_parametros['cant_semb_inicial']
+#     print('datos_comida', poblacion_semb.retornar_posicion_y_cantidad_alimento(ga))

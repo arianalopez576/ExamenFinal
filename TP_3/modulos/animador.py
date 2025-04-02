@@ -6,8 +6,6 @@ from datos.parametros_de_simulacion import Parametros_de_Simulacion
 
 import numpy as np
 
-ps = Parametros_de_Simulacion()
-
 class Animador:
     
     def __init__(self, p_func_ani, p_interval=50):

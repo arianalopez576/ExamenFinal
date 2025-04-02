@@ -27,8 +27,9 @@ class Archivo_Informe(ABC):
         return str(fecha_hora)
     
     def crear_histograma(self, p_datos):
+        plt.figure()
         plt.hist(p_datos)
-        plt.show()
+        # plt.show()
         plt.savefig("grafico.png")
     
     @abstractmethod

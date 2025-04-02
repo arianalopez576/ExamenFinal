@@ -26,7 +26,7 @@ class TestGestorAlimento(unittest.TestCase):
         g_alimento = self.__gestor_alimento
         g_alimento.agregar_alimento_en_posicion(1, 1)
         cantidad_agregada = g_alimento.retornar_alimento_en_posicion(1, 1)
-        alimento_quitado = g_alimento.quitar_alimento_en_posicion(1, 1)
+        alimento_quitado = g_alimento.quitar_alimento_en_posicion(1, 1, 20)
         cantidad_final = g_alimento.retornar_alimento_en_posicion(1, 1)
         alimento_quitado = False
         if cantidad_final < cantidad_agregada:
@@ -53,12 +53,12 @@ class TestGestorAlimento(unittest.TestCase):
         
     def test_comprobar_posicion(self):
         g_alimento = self.__gestor_alimento
-        fuera_de_territorio = g_alimento.comprobar_dimension_fila_columna(300,300)
+        fuera_de_territorio = g_alimento._comprobar_dimension_fila_columna(300,300)
         self.assertEqual(fuera_de_territorio, False)
         
     def test_comprobar_dimension(self):
         g_alimento = self.__gestor_alimento
-        fuera_de_rango = g_alimento.comprobar_dimension_fila_columna(200, 200)
+        fuera_de_rango = g_alimento._comprobar_dimension_fila_columna(200, 200)
         self.assertFalse(fuera_de_rango)
        
 

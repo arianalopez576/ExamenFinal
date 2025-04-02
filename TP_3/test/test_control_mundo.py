@@ -8,9 +8,10 @@ parametros = Parametros_de_Simulacion
 class Test_Archivo_Html(unittest.TestCase):
     
     def setUp(self):
-        self.__mundo = Mundo(parametros)
+        self.__mundo = Mundo()
         print ('\nsetUp')
-        
+    
+    #verifica que se sume una epoca por cada vivir del mundo
     def test_aumentar_epoca(self):
         epoca1 = self.__mundo.retornar_epoca()
         self.__mundo.vivir()

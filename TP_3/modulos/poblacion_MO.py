@@ -1,7 +1,9 @@
 from modulos.microorganismo import Microorganismo
 from datos.parametros_de_simulacion import Parametros_de_Simulacion
-p_s = Parametros_de_Simulacion()
 
+import numpy as np
+
+p_s = Parametros_de_Simulacion()
 
 class Poblacion_MO:     
     
@@ -38,6 +40,22 @@ class Poblacion_MO:
         for MO in self.__lista_MO:
             lista_posiciones.append(MO.get_posicion())
         return lista_posiciones
+    
+    def crear_lista_energia_MOs(self):
+        lista_energia = []
+        for MO in self.__lista_MO:
+            lista_energia.append(MO.get_energia())
+        return lista_energia
+    
+    def crear_lista_inteligencia_MOs(self):
+        lista_inteligencia = []
+        for mo in self.__lista_MO:
+            inteligencia = mo.devolver_inteligencia()
+            lista_inteligencia.append(inteligencia)
+        return lista_inteligencia
+    
+    def calcular_desviacion_estandar(self):
+        return np.std(self.crear_lista_inteligencia_MOs())
     
     def calcular_cant_MO(self):
         MO_vivos = 0

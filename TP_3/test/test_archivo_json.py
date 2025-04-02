@@ -1,11 +1,11 @@
 
-from modulos.archivo_json import Gestor_de_Archivo_de_Param
+from modulos.archivo_json import Archivo_Json
 import unittest
 
 class Test_Archivo_Json(unittest.TestCase):
     
     def setUp(self):
-        self.__archi_json = Gestor_de_Archivo_de_Param()
+        self.__archi_json = Archivo_Json()
         print ('\nsetUp')
         
     def test_verificar_escritura_lectura(self):
@@ -15,7 +15,7 @@ class Test_Archivo_Json(unittest.TestCase):
         archi.escribir_archi_json('archivo_prueba_json.json', dicc)
         lectura = archi.leer_archi_json('archivo_prueba_json.json')
         print(lectura)
-        self.assertEqual(1, 1)
+        self.assertEqual(dicc, lectura)
     
 
     

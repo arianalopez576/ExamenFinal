@@ -1,9 +1,9 @@
 import random
 from datos.parametros_de_simulacion import Parametros_de_Simulacion
 from modulos.cromosoma import Cromosoma
-from modulos.gestor_de_alimento import Gestor_de_Alimento
 
 ps = Parametros_de_Simulacion()
+
 class Microorganismo:
     
     def __init__(self):
@@ -73,61 +73,90 @@ class Microorganismo:
     def comer(self, p_gestor_alimento): 
         #si la energia que puede obtener, supera la cantidad de alimento que puede ingerir, entonces la energia sera igual al max alimento
         if (self.__energia_max - self.__energia) >= self.__max_alimento_ingerir:
-            cant_alimento = self.__max_alimento_ingerir
+            alimento_quitar = self.__max_alimento_ingerir
         #si la energia es menor, es decir, puede seguir alimentadose
         else:
-           cant_alimento = self.__energia_max - self.__energia
+           alimento_quitar = self.__energia_max - self.__energia
        
-        alimento_ingerido = p_gestor_alimento.quitar_alimento_en_posicion(self.__fila, self.__columna)
+        alimento_ingerido = p_gestor_alimento.quitar_alimento_en_posicion(self.__fila, self.__columna, alimento_quitar)
         self.__energia += alimento_ingerido
-        
-    def moverse(self, p_gestor_alimento):
+      
+    def moverse(self, p_epoca, p_gestor_alimento):
         #verifico que tenga vida
         if self.get_energia() != 0:
-            cromo = self.__cromosoma
+            #detecta alimento
             celda_alimento = self.detectar_alimento(p_gestor_alimento)
             
-            #si se da la prob de cambio de movimiento
-            if random.random()*100 < ps.dic_parametros['prob_cambio_MO']: #random.random da un num decimal aleatorio entre 0 y 100
-                self.__moverse_aleatorio(p_gestor_alimento)    
-            
             #si hay alimento en la celda
-            elif celda_alimento != 0:
-                posicion_nueva = cromo.devolver_gen_en_posicion_dada(celda_alimento)
+            if celda_alimento != -1:
+                #el gen le indica la nueva posicion
+                posicion_nueva = self.__cromosoma.devolver_gen_en_posicion_dada(celda_alimento)
                 fila_nueva = self.__fila + self.__mov_relativo[posicion_nueva][0]
-                columna_nueva = self.__columna + self.__mov_relativo[celda_alimento][1]
+                columna_nueva = self.__columna + self.__mov_relativo[posicion_nueva][1]
+                #si esta en rango, se mueve y come
                 ubicacion_en_rango = self.__verificar_ubicacion(fila_nueva, columna_nueva)
                 if ubicacion_en_rango == True: 
                     self.__fila = fila_nueva
                     self.__columna = columna_nueva 
                     self.__direccion_MO = posicion_nueva
-                    hay_alimento = p_gestor_alimento.retornar_alimento_en_posicion(self.__fila, self.__columna)
-                    if celda_alimento == posicion_nueva or hay_alimento > 0 : 
-                        self.comer(p_gestor_alimento)
-                else:
-                    self.moverse(p_gestor_alimento)
                     
-            #si no hay comida, movimiento aleatorio
+                #si la posicion esta fuera de rango, busca otra
+                else:
+                    #probabilidad de cambio de la direccion del MO
+                    if p_epoca % ps.dic_parametros['prob_cambio_MO'] == 0: #random.random da un num decimal aleatorio entre 0 y 100
+                       direccion_movimiento = random.randint(0,7)
+                       fila_nueva = self.__fila + self.__mov_relativo[direccion_movimiento][0]
+                       columna_nueva = self.__columna + self.__mov_relativo[direccion_movimiento][1]
+                       ubicacion_en_rango = self.__verificar_ubicacion(fila_nueva, columna_nueva)
+                       if ubicacion_en_rango == True:
+                               self.__fila = fila_nueva
+                               self.__columna = columna_nueva
+                               self.__direccion_MO = direccion_movimiento   
+                        #si la ubicacion esta fuera de rango, asegurar movimiento      
+                       else:
+                           self._asegurar_movimiento()
+                    #si la direccion de movimiento se mantiene
+                    else:
+                        fila_nueva = self.__fila + self.__mov_relativo[self.__direccion_MO][0]
+                        columna_nueva = self.__columna + self.__mov_relativo[self.__direccion_MO][1]
+                        ubicacion_en_rango = self.__verificar_ubicacion(fila_nueva, columna_nueva)
+                        if ubicacion_en_rango == True:
+                                self.__fila = fila_nueva
+                                self.__columna = columna_nueva
+                        #si la ubicacion esta fuera de rango, asegurar movimiento
+                        else:
+                            self._asegurar_movimiento()
+                              
+            #si no encuentra alimento en la celda
             else:
-                self.__moverse_aleatorio(p_gestor_alimento)
+                fila_nueva = self.__fila + self.__mov_relativo[self.__direccion_MO][0]
+                columna_nueva = self.__columna + self.__mov_relativo[self.__direccion_MO][1]
+                ubicacion_en_rango = self.__verificar_ubicacion(fila_nueva, columna_nueva)
+                if ubicacion_en_rango == True:
+                        self.__fila = fila_nueva
+                        self.__columna = columna_nueva 
+                else:
+                    self._asegurar_movimiento()
             
             #al moverse, pierde energia
             self.__disminuir_energia()
-    
-    #aca tendria que verificar que siempre se mueva, puede ser que si esta fuera de rango, no haya movimiento 
-    def __moverse_aleatorio(self, p_gestor_alimento):
-        self.__direccion_aleatoria = random.randint(0,7)
-        fila_nueva = self.__fila + self.__mov_relativo[self.__direccion_aleatoria][0]
-        columna_nueva = self.__columna + self.__mov_relativo[self.__direccion_aleatoria][1]
-        ubicacion_en_rango = self.__verificar_ubicacion(fila_nueva, columna_nueva)
-        if ubicacion_en_rango == True:
-            self.__fila = fila_nueva
-            self.__columna = columna_nueva
-            hay_alimento = p_gestor_alimento.retornar_alimento_en_posicion(self.__fila, self.__columna)
-            if hay_alimento > 0 :
-                self.comer(p_gestor_alimento)
-        else:
-            self.__moverse_aleatorio(p_gestor_alimento)
+        
+        
+    def _asegurar_movimiento(self):        
+        se_movio = False
+        
+        while se_movio == False:
+            direccion_movimiento = random.randint(0,7)
+            fila_nueva = self.__fila + self.__mov_relativo[direccion_movimiento][0]
+            columna_nueva = self.__columna + self.__mov_relativo[direccion_movimiento][1]
+            ubicacion_en_rango = self.__verificar_ubicacion(fila_nueva, columna_nueva)
+            if ubicacion_en_rango == True:
+                    self.__fila = fila_nueva
+                    self.__columna = columna_nueva
+                    self.__direccion_MO = direccion_movimiento   
+                    se_movio = True
+        
+            
             
         
     def __verificar_ubicacion(self, p_fila_nueva, p_columna_nueva):
@@ -167,9 +196,21 @@ if __name__ == "__main__":
     ps = Parametros_de_Simulacion()
     ga = Gestor_de_Alimento(ps)
     MO = Microorganismo()
+    MO.set_energia(190)
     MO.set_posicion_MO(99, 99)
+    ga.agregar_alimento_en_posicion(98, 99)
+    ga.agregar_alimento_en_posicion(98, 98)
+    ga.agregar_alimento_en_posicion(99, 98)
+    ga.quitar_alimento_en_posicion(99, 98, 45)
+    ga.quitar_alimento_en_posicion(98, 99, 45)
+    ga.quitar_alimento_en_posicion(98, 98, 45)
     print('pos1', MO.get_posicion())
+    print('energia inicial', MO.get_energia())
     MO.moverse(ga)
+    MO.comer(ga)
     print('pos2', MO.get_posicion())
-    print(MO.get_energia())
+    print('energia final', MO.get_energia())
+    print('cant comida', ga.retornar_alimento_en_posicion(98, 99))
+    print('cant comida', ga.retornar_alimento_en_posicion(98, 98))
+    print('cant comida', ga.retornar_alimento_en_posicion(99, 98))
     

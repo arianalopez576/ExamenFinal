@@ -12,14 +12,14 @@ class Test_Archivo_Html(unittest.TestCase):
         
     def test_crear_archivo(self):
         
-        self.__archi_html.
-       se_genero_correctamente = False
+        datos = [10, [0,4,3,2], 2, 0.94]
+        self.__archi_html.escribir_archivo('informe.html', parametros, datos)
+        se_genero_correctamente = False
        
-       archivos = os.listdir('./')
-       if 'histograma.png' and 'informe.html' in archivos:
+        if 'histograma.png' and 'informe.html' in TP_3:
            se_genero_correctamente = True
        
-       self.assertEqual(se_genero_correctamente,True)
+        self.assertEqual(se_genero_correctamente,True)
     
 
 if __name__ == '__main__':
